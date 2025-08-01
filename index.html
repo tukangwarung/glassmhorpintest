@@ -158,7 +158,7 @@
             opacity: 0.8;
         }
 
-        /* Card Positions */
+        /* Card Positions (Desktop) */
         .carousel-card[data-index="0"] {
             transform: translate3d(-300px, 0, -200px) scale(0.9);
             opacity: 0.5;
@@ -228,16 +228,14 @@
             display: flex;
         }
         
-        /* ADJUSTED: Added overflow:auto to allow scrolling */
         .modal-content {
             position: relative;
             width: 80%;
             max-width: 900px;
-            height: 80%; /* Adjusted to give it a fixed height */
+            height: 80%;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            /* REMOVED: overflow: hidden; */
-            overflow: auto; /* ADDED: This will show scrollbars when needed */
+            overflow: auto;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             transform: scale(0.9);
             transition: transform 0.3s ease;
@@ -248,10 +246,9 @@
             transform: scale(1);
         }
         
-        /* ADJUSTED: Removed max-height on the image */
         .modal-content img {
             width: 100%;
-            height: auto; /* Changed to auto to maintain aspect ratio */
+            height: auto;
             display: block;
         }
 
@@ -273,6 +270,84 @@
         .modal-close-button:hover,
         .modal-close-button:focus {
             color: #ddd;
+        }
+
+        /* ========================================= */
+        /* MOBILE RESPONSIVENESS                     */
+        /* ========================================= */
+        @media (max-width: 768px) {
+            
+            /* Navbar adjustments for smaller screens */
+            .navbar {
+                padding: 1rem 1.5rem;
+            }
+            .navbar .nav-links {
+                display: none; /* Hide nav links on mobile */
+            }
+            .navbar .nav-actions {
+                gap: 0.5rem;
+            }
+            .navbar .book-now-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            /* Carousel adjustments */
+            .hero-section {
+                /* Reduced height for more focus on carousel */
+                height: 80vh; 
+            }
+            .carousel-card {
+                width: 200px; /* Make cards a bit smaller */
+                height: 350px;
+            }
+
+            /* Card Positions for Mobile */
+            .carousel-card[data-index="0"] {
+                transform: translate3d(-150px, 0, -200px) scale(0.8);
+                opacity: 0.3;
+            }
+            .carousel-card[data-index="1"] {
+                transform: translate3d(-75px, 0, -100px) scale(0.9);
+                opacity: 0.6;
+            }
+            .carousel-card[data-index="2"] {
+                transform: translate3d(0, 0, 0) scale(1) translateY(0);
+                z-index: 10;
+            }
+            .carousel-card[data-index="3"] {
+                transform: translate3d(75px, 0, -100px) scale(0.9);
+                opacity: 0.6;
+            }
+            .carousel-card[data-index="4"] {
+                transform: translate3d(150px, 0, -200px) scale(0.8);
+                opacity: 0.3;
+            }
+
+            /* Navigation button adjustments */
+            .nav-btn.prev {
+                left: 5%;
+            }
+            .nav-btn.next {
+                right: 5%;
+            }
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+
+            /* Modal adjustments for mobile */
+            .modal-content {
+                width: 95%;
+                height: 90%;
+            }
+
+            .modal-close-button {
+                top: 10px;
+                right: 10px;
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
@@ -343,7 +418,6 @@
         const prevBtn = document.querySelector('.nav-btn.prev');
         const nextBtn = document.querySelector('.nav-btn.next');
 
-        // New elements for the modal
         const imageModal = document.getElementById('imageModal');
         const modalImage = document.getElementById('modalImage');
         const closeButton = document.querySelector('.modal-close-button');
@@ -355,35 +429,35 @@
                 const newIndex = cardIndexes[i];
                 card.dataset.index = newIndex;
                 
-                const activeTransform = 'translate3d(0, 0, 0) scale(1.1) translateY(-20px)';
-                const prev1Transform = 'translate3d(-150px, 0, -100px) scale(0.95)';
-                const prev2Transform = 'translate3d(-300px, 0, -200px) scale(0.9)';
-                const next1Transform = 'translate3d(150px, 0, -100px) scale(0.95)';
-                const next2Transform = 'translate3d(300px, 0, -200px) scale(0.9)';
+                // Use a different set of transforms for mobile vs desktop.
+                // The media query handles this for us, so we just reset here.
+                card.style.transform = ''; 
+                card.style.opacity = '';
+                card.style.zIndex = '';
 
                 switch (newIndex) {
                     case 0:
-                        card.style.transform = prev2Transform;
+                        card.style.transform = 'translate3d(-300px, 0, -200px) scale(0.9)';
                         card.style.opacity = 0.5;
                         card.style.zIndex = 1;
                         break;
                     case 1:
-                        card.style.transform = prev1Transform;
+                        card.style.transform = 'translate3d(-150px, 0, -100px) scale(0.95)';
                         card.style.opacity = 0.8;
                         card.style.zIndex = 2;
                         break;
                     case 2:
-                        card.style.transform = activeTransform;
+                        card.style.transform = 'translate3d(0, 0, 0) scale(1.1) translateY(-20px)';
                         card.style.opacity = 1;
                         card.style.zIndex = 10;
                         break;
                     case 3:
-                        card.style.transform = next1Transform;
+                        card.style.transform = 'translate3d(150px, 0, -100px) scale(0.95)';
                         card.style.opacity = 0.8;
                         card.style.zIndex = 2;
                         break;
                     case 4:
-                        card.style.transform = next2Transform;
+                        card.style.transform = 'translate3d(300px, 0, -200px) scale(0.9)';
                         card.style.opacity = 0.5;
                         card.style.zIndex = 1;
                         break;
@@ -406,7 +480,6 @@
             updateCarousel();
         });
 
-        // Event listener to open the modal
         cards.forEach(card => {
             card.addEventListener('click', (e) => {
                 const bgImage = card.style.backgroundImage;
@@ -417,19 +490,16 @@
             });
         });
 
-        // Event listener to close the modal with the close button
         closeButton.addEventListener('click', () => {
             imageModal.classList.remove('active');
         });
 
-        // Close modal when clicking on the background
         imageModal.addEventListener('click', (e) => {
             if (e.target.id === 'imageModal') {
                 imageModal.classList.remove('active');
             }
         });
 
-        // Initialize the carousel on page load
         updateCarousel();
     </script>
 </body>
