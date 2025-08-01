@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage</title>
+
+    <style>
+        /* General Styles */
+        :root {
+            --dark-bg: #1a1a1a;
+            --primary-color: #fff;
+            --accent-color: #ff5722;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--primary-color);
+            line-height: 1.6;
+            overflow: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 3rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .navbar .nav-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            opacity: 1;
+        }
+
+        .navbar .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .navbar .search-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .navbar .book-now-btn {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .book-now-btn:hover {
+            background-color: #e64a19;
+        }
+
+        /* Hero Section & Carousel */
+        .hero-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+        
+        .carousel-card {
+            position: absolute;
+            width: 250px;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            text-align: center;
+            color: #fff;
+            transform-style: preserve-3d;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .carousel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        }
+
+        .carousel-card .card-content {
+            position: relative;
+            z-index: 2;
+            padding: 1.5rem 1rem;
+        }
+        
+        .carousel-card .card-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .carousel-card .card-content p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Card Positions */
+        .carousel-card[data-index="0"] {
+            transform: translate3d(-300px, 0, -200px) scale(0.9);
+            opacity: 0.5;
+        }
+        .carousel-card[data-index="1"] {
+            transform: translate3d(-150px, 0, -100px) scale(0.95);
+            opacity: 0.8;
+        }
+        .carousel-card[data-index="2"] {
+            transform: translate3d(0, 0, 0) scale(1.1) translateY(-20px);
+            z-index: 10;
+        }
+        .carousel-card[data-index="3"] {
+            transform: translate3d(150px, 0, -100px) scale(0.95);
+            opacity: 0.8;
+        }
+        .carousel-card[data-index="4"] {
+            transform: translate3d(300px, 0, -200px) scale(0.9);
+            opacity: 0.5;
+        }
+        
+        /* Navigation Buttons */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            backdrop-filter: blur(5px);
+            transition: background 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-btn.prev { left: 10%; }
+        .nav-btn.next { right: 10%; }
+
+        /* Fullscreen Modal/Popup for enlarged image */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+        
+        .image-modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            max-height: 80%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(2px); /* Subtle glass effect on the content area */
+        }
+        
+        .image-modal.active .modal-content {
+            transform: scale(1);
+        }
+        
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures the image fits without cropping */
+            display: block; /* Removes any default spacing below the image */
+        }
+
+        /* Close Button Styles */
+        .modal-close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 210;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            transition: color 0.2s ease;
+        }
+        
+        .modal-close-button:hover,
+        .modal-close-button:focus {
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">Voyage</div>
+        <ul class="nav-links">
+            <li><a href="#">Destinations</a></li>
+            <li><a href="#">Trip Types</a></li>
+            <li><a href="#">Get Inspired</a></li>
+            <li><a href="#">Special Offers</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="search-btn">&#x1F50D;</button>
+            <button class="book-now-btn">BOOK NOW</button>
+        </div>
+    </header>
+
+    <main class="hero-section">
+        <div class="carousel-container">
+            <div class="carousel-card" data-index="2" style="background-image: url('https://images.unsplash.com/photo-1542036665-6831bd06f528?q=80&w=1740&auto=format&fit=crop');">
+                <div class="card-content">
+                    <h3>MACHU PICCHU - PERU</h3>
+                    <p>Adventure is never far away</p>
+                </div>
+            </div>
+            <div class="carousel-card" data-index="3" style="background-image: url('https://images.unsplash.com/photo-1559403816-65de423c8e4d?q=80&w=1740&auto=format&fit=crop');">
+                <div class="card-content">
+                    <h3>CHAMONIX - FRANCE</h3>
+                    <p>Let your dreams come true</p>
+                </div>
+            </div>
+            <div class="carousel-card" data-index="4" style="background-image: url('https://images.unsplash.com/photo-1502657877623-f66bf489d70d?q=80&w=1778&auto=format&fit=crop');">
+                <div class="card-content">
+                    <h3>MIMISA ROCKS - AUSTRALIA</h3>
+                    <p>A piece of heaven.</p>
+                </div>
+            </div>
+            <div class="carousel-card" data-index="1" style="background-image: url('https://images.unsplash.com/photo-1502759683296-6e2765d7620d?q=80&w=1740&auto=format&fit=crop');">
+                <div class="card-content">
+                    <h3>BORA BORA - TAHITI</h3>
+                    <p>Paradise is calling.</p>
+                </div>
+            </div>
+            <div class="carousel-card" data-index="0" style="background-image: url('https://images.unsplash.com/photo-1517788414324-4f24c3a2f32f?q=80&w=1740&auto=format&fit=crop');">
+                <div class="card-content">
+                    <h3>NORWEGIAN FJORD - NORWAY</h3>
+                    <p>Discover breathtaking views.</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="nav-btn prev">&lt;</button>
+        <button class="nav-btn next">&gt;</button>
+    </main>
+
+    <div id="imageModal" class="image-modal">
+        <div class="modal-content">
+            <span class="modal-close-button">&times;</span>
+            <img id="modalImage" src="" alt="Enlarged Menu Item">
+        </div>
+    </div>
+
+    <script>
+        const carousel = document.querySelector('.carousel-container');
+        const cards = document.querySelectorAll('.carousel-card');
+        const prevBtn = document.querySelector('.nav-btn.prev');
+        const nextBtn = document.querySelector('.nav-btn.next');
+
+        // New elements for the modal
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const closeButton = document.querySelector('.modal-close-button');
+
+        let cardIndexes = Array.from(cards).map(card => parseInt(card.dataset.index));
+        
+        function updateCarousel() {
+            cards.forEach((card, i) => {
+                const newIndex = cardIndexes[i];
+                card.dataset.index = newIndex;
+                
+                const activeTransform = 'translate3d(0, 0, 0) scale(1.1) translateY(-20px)';
+                const prev1Transform = 'translate3d(-150px, 0, -100px) scale(0.95)';
+                const prev2Transform = 'translate3d(-300px, 0, -200px) scale(0.9)';
+                const next1Transform = 'translate3d(150px, 0, -100px) scale(0.95)';
+                const next2Transform = 'translate3d(300px, 0, -200px) scale(0.9)';
+
+                switch (newIndex) {
+                    case 0:
+                        card.style.transform = prev2Transform;
+                        card.style.opacity = 0.5;
+                        card.style.zIndex = 1;
+                        break;
+                    case 1:
+                        card.style.transform = prev1Transform;
+                        card.style.opacity = 0.8;
+                        card.style.zIndex = 2;
+                        break;
+                    case 2:
+                        card.style.transform = activeTransform;
+                        card.style.opacity = 1;
+                        card.style.zIndex = 10;
+                        break;
+                    case 3:
+                        card.style.transform = next1Transform;
+                        card.style.opacity = 0.8;
+                        card.style.zIndex = 2;
+                        break;
+                    case 4:
+                        card.style.transform = next2Transform;
+                        card.style.opacity = 0.5;
+                        card.style.zIndex = 1;
+                        break;
+                    default:
+                        card.style.transform = 'scale(0.8)';
+                        card.style.opacity = 0;
+                        card.style.zIndex = 0;
+                        break;
+                }
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            cardIndexes = cardIndexes.map(index => (index === 4) ? 0 : index + 1);
+            updateCarousel();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            cardIndexes = cardIndexes.map(index => (index === 0) ? 4 : index - 1);
+            updateCarousel();
+        });
+
+        // Event listener to open the modal
+        cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Only open modal if the clicked card is the active one (optional)
+                // if (card.dataset.index === '2') {
+                    const bgImage = card.style.backgroundImage;
+                    const imageUrl = bgImage.slice(5, -2);
+                    
+                    modalImage.src = imageUrl;
+                    imageModal.classList.add('active');
+                // }
+            });
+        });
+
+        // Event listener to close the modal
+        closeButton.addEventListener('click', () => {
+            imageModal.classList.remove('active');
+        });
+
+        // Close modal when clicking on the background
+        imageModal.addEventListener('click', (e) => {
+            // Check if the click event target is the modal itself and not the image
+            if (e.target.id === 'imageModal') {
+                imageModal.classList.remove('active');
+            }
+        });
+
+        // Initialize the carousel on page load
+        updateCarousel();
+    </script>
+</body>
+</html>
