@@ -228,29 +228,31 @@
             display: flex;
         }
         
+        /* ADJUSTED: Added overflow:auto to allow scrolling */
         .modal-content {
             position: relative;
             width: 80%;
             max-width: 900px;
-            max-height: 80%;
+            height: 80%; /* Adjusted to give it a fixed height */
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            overflow: hidden;
+            /* REMOVED: overflow: hidden; */
+            overflow: auto; /* ADDED: This will show scrollbars when needed */
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             transform: scale(0.9);
             transition: transform 0.3s ease;
-            backdrop-filter: blur(2px); /* Subtle glass effect on the content area */
+            backdrop-filter: blur(2px);
         }
         
         .image-modal.active .modal-content {
             transform: scale(1);
         }
         
+        /* ADJUSTED: Removed max-height on the image */
         .modal-content img {
             width: 100%;
-            height: 100%;
-            object-fit: contain; /* Ensures the image fits without cropping */
-            display: block; /* Removes any default spacing below the image */
+            height: auto; /* Changed to auto to maintain aspect ratio */
+            display: block;
         }
 
         /* Close Button Styles */
@@ -292,25 +294,25 @@
 
     <main class="hero-section">
         <div class="carousel-container">
-            <div class="carousel-card" data-index="2" style="background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/JADI4.jpg');">
+            <div class="carousel-card" data-index="2" style="background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/JADI1.jpg');">
                 <div class="card-content">
                     <h3>MACHU PICCHU - PERU</h3>
                     <p>Adventure is never far away</p>
                 </div>
             </div>
-            <div class="carousel-card" data-index="3" style="background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/JADI3.jpg');">
+            <div class="carousel-card" data-index="3" style="background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/JADI2.jpg');">
                 <div class="card-content">
                     <h3>CHAMONIX - FRANCE</h3>
                     <p>Let your dreams come true</p>
                 </div>
             </div>
-            <div class="carousel-card" data-index="4" style="background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/JADI2.jpg');">
+            <div class="carousel-card" data-index="4" style="background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/JADI3.jpg');">
                 <div class="card-content">
                     <h3>MIMISA ROCKS - AUSTRALIA</h3>
                     <p>A piece of heaven.</p>
                 </div>
             </div>
-            <div class="carousel-card" data-index="1" style="background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/JADI1.jpg');">
+            <div class="carousel-card" data-index="1" style="background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/JADI4.jpg');">
                 <div class="card-content">
                     <h3>BORA BORA - TAHITI</h3>
                     <p>Paradise is calling.</p>
@@ -407,25 +409,21 @@
         // Event listener to open the modal
         cards.forEach(card => {
             card.addEventListener('click', (e) => {
-                // Only open modal if the clicked card is the active one (optional)
-                // if (card.dataset.index === '2') {
-                    const bgImage = card.style.backgroundImage;
-                    const imageUrl = bgImage.slice(5, -2);
-                    
-                    modalImage.src = imageUrl;
-                    imageModal.classList.add('active');
-                // }
+                const bgImage = card.style.backgroundImage;
+                const imageUrl = bgImage.slice(5, -2);
+                
+                modalImage.src = imageUrl;
+                imageModal.classList.add('active');
             });
         });
 
-        // Event listener to close the modal
+        // Event listener to close the modal with the close button
         closeButton.addEventListener('click', () => {
             imageModal.classList.remove('active');
         });
 
         // Close modal when clicking on the background
         imageModal.addEventListener('click', (e) => {
-            // Check if the click event target is the modal itself and not the image
             if (e.target.id === 'imageModal') {
                 imageModal.classList.remove('active');
             }
