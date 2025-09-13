@@ -463,6 +463,12 @@
     
     <script src="https://js.puter.com/v2/"></script>
     <script>
+        puter.ai.chat('ada menu apa saja di wisdom cafe?' , { model :"gpt-5-nano"})
+        .then(Response=> {
+            puter.print(response);
+        });
+        </script>
+        <script>
         function toggleNav() {
             var sidenav = document.getElementById("mySidenav");
             var overlay = document.getElementById("menuOverlay");
@@ -510,7 +516,7 @@
         async function sendMessage() {
             const userInput = document.getElementById("user-input");
             const chatBox = document.getElementById("chat-box");
-            const userMessage = userInput.value.trim();
+            const userMessage = userInput.value.trim();[[[]]]
 
             if (!userMessage) return;
 
@@ -542,3 +548,4 @@
     </script>
 </body>
 </html>
+[[[[[
