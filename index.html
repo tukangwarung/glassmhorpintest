@@ -516,7 +516,7 @@
         async function sendMessage() {
             const userInput = document.getElementById("user-input");
             const chatBox = document.getElementById("chat-box");
-            const userMessage = userInput.value.trim();[[[]]]
+            const userMessage = userInput.value.trim();
 
             if (!userMessage) return;
 
@@ -536,7 +536,7 @@
 
             try {
                 // Use Puter AI to generate a response
-                const result = await puter.ai.chat(userMessage, { model: "gemini-1.5-flash-preview-05-20" });
+                const result = await puter.ai.chat(userMessage, { model: "gpt-5-nano" });
                 loadingDiv.textContent = result.text;
             } catch (error) {
                 console.error("Error calling Puter AI chat:", error);
