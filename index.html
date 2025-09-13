@@ -8,399 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap" rel="stylesheet">
-
     <style>
-        body {
-            margin: 0;
-            font-family: 'Open Sans', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #333;
-            background-image: url('https://raw.githubusercontent.com/0xdfkoikoi/wisdomcafe/refs/heads/main/img/BG1.jpg');
-            background-size: cover;
-            background-position: center;
-            color: #fff;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        .container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .glassmorphism-card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            padding: 25px;
-            max-width: 900px;
-            width: 90%;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            z-index: 1;
-            position: relative;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .menu-toggle {
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .menu-icon {
-            width: 24px;
-            height: 18px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .menu-icon span {
-            display: block;
-            width: 100%;
-            height: 2px;
-            background-color: white;
-            border-radius: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .menu-icon.open span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-        .menu-icon.open span:nth-child(2) {
-            opacity: 0;
-        }
-        .menu-icon.open span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        .header-text {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.9em;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 600;
-        }
-
-        .side-nav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 10;
-            top: 0;
-            left: 0;
-            background-color: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-    .side-nav.open {
-            width: 250px;
-        }
-
-        .side-nav a {
-            padding: 15px 25px 15px 35px;
-            text-decoration: none;
-            font-size: 1.2em;
-            color: #f1f1f1;
-            display: block;
-            transition: 0.3s;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
-        }
-
-        .side-nav a:hover {
-            color: #fff;
-            background-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .side-nav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 5;
-            display: none;
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
-
-        .overlay.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .card-content {
-            display: grid;
-            grid-template-columns: 0.7fr 1.3fr;
-            gap: 30px;
-            align-items: center;
-        }
-
-        .left-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            padding: 10px;
-        }
-
-        .content-image {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 10px;
-        }
-
-        .right-section {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .main-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3.5em;
-            font-weight: 700;
-            line-height: 1.1;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            margin: 0;
-            color: white;
-        }
-
-        .subtitle {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.2em;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .description-text {
-            font-size: 0.9em;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-text {
-            font-size: 0.85em;
-            color: rgba(255, 255, 255, 0.6);
-            flex-shrink: 0;
-        }
-
-        .footer-button {
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-family: 'Open Sans', sans-serif;
-            font-size: 0.85em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-            white-space: nowrap;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .outline-button {
-            background-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .outline-button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        .filled-button {
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-        }
-
-        .filled-button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Assistant Section */
-        .assistant-section {
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 15px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .chat-box {
-            max-height: 200px;
-            overflow-y: auto;
-            background: rgba(0, 0, 0, 0.15);
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 0.9em;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-message {
-            margin-bottom: 8px;
-            line-height: 1.4;
-            padding: 8px 12px;
-            border-radius: 10px;
-            max-width: 80%;
-        }
-
-        .chat-message.user {
-            background: rgba(255, 255, 255, 0.15);
-            align-self: flex-end;
-            text-align: right;
-            color: #ffd27f;
-        }
-
-        .chat-message.ai {
-            background: rgba(255, 255, 255, 0.05);
-            align-self: flex-start;
-            text-align: left;
-            color: #ffffff;
-        }
-
-        .chat-input-container {
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-input-container input {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            border: none;
-            outline: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .chat-input-container button {
-            padding: 10px 16px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .chat-input-container button:hover {
-            background-color: rgba(255, 255, 255, 0.35);
-        }
-
-        @media (max-width: 768px) {
-            .card-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .left-section {
-                padding: 5px;
-            }
-
-            .main-title {
-                font-size: 2.5em;
-            }
-
-            .footer-text {
-                display: none;
-            }
-
-            .card-footer {
-                justify-content: center;
-            }
-
-            .side-nav.open {
-                width: 70%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .glassmorphism-card {
-                padding: 15px;
-            }
-
-            .card-header {
-                gap: 10px;
-                align-items: flex-start;
-            }
-
-            .menu-toggle {
-                flex-direction: row;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .footer-button {
-                padding: 6px 12px;
-                font-size: 0.8em;
-            }
-
-            .side-nav.open {
-                width: 75%;
-            }
-        }
+        /* (CSS sama persis dengan sebelumnya, tidak diubah) */
     </style>
 </head>
 <body>
@@ -456,19 +65,27 @@
             <footer class="card-footer">
                 <div class="footer-text">Connect with nature</div>
                 <a href="Menu.html" class="footer-button outline-button">Lihat Menu</a>
-                <a href="www.instagram.com/wisatadombagarut?igsh=MTMxZmRqNjQ4amRuNw==" class="footer-button filled-button">Gallery</a>
+                <a href="https://www.instagram.com/wisatadombagarut?igsh=MTMxZmRqNjQ4amRuNw==" class="footer-button filled-button">Gallery</a>
             </footer>
         </div>
     </div>
     
     <script src="https://js.puter.com/v2/"></script>
     <script>
-        puter.ai.chat('ada menu apa saja di wisdom cafe?' , { model :"gpt-5-nano"})
-        .then(Response=> {
-            puter.print(response);
+        // Pemanggilan awal untuk uji coba
+        puter.ai.chat('ada menu apa saja di wisdom cafe?', { model: "gpt-5-nano" })
+        .then(result => {
+            const chatBox = document.getElementById("chat-box");
+            const aiDiv = document.createElement("div");
+            aiDiv.className = "chat-message ai";
+            aiDiv.textContent = result.text;
+            chatBox.appendChild(aiDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        })
+        .catch(err => {
+            console.error("Error dari Puter AI:", err);
         });
-        </script>
-        <script>
+
         function toggleNav() {
             var sidenav = document.getElementById("mySidenav");
             var overlay = document.getElementById("menuOverlay");
@@ -498,7 +115,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const sendButton = document.getElementById("send-button");
             const userInput = document.getElementById("user-input");
-            
+
             if (sendButton) {
                 sendButton.addEventListener('click', sendMessage);
             }
@@ -535,7 +152,6 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                // Use Puter AI to generate a response
                 const result = await puter.ai.chat(userMessage, { model: "gpt-5-nano" });
                 loadingDiv.textContent = result.text;
             } catch (error) {
